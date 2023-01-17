@@ -1,0 +1,41 @@
+version: 2.1
+
+orbs:
+  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
+  node: circleci/node@4.7
+
+jobs:
+  unit-test:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      # - node/install
+      - run: npm install
+      - run:
+          name: Run Unit tests
+          command: npm test
+  deploy:
+    docker:
+      - image: circleci/node:10.15.1
+    steps:
+      - checkout
+      - run:
+          name: Installing deployment dependencies
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python3-pip python3-dev build-essential
+            sudo pip3 install awsebcli botocore==1.19.63 --upgrade
+      - run:
+          name: Deploy to Elastic Beanstalk
+          command: |
+            eb deploy ${Cicdreactdocker-env}
+
+workflows:
+  version: 2.1
+  build_deploy:
+    jobs:
+      - unit-test
+      - deploy:
+          requires:
+            - unit-test
