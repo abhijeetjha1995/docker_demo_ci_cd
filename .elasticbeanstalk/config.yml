@@ -2,7 +2,7 @@ branch-defaults:
   main:
     environment: "Democici-env"
 global:
-  application_name: "application name"
+  application_name: "demo_ci_ci"
   default_ec2_keyname: "Democici-env"
   default_platform: 64bit Amazon Linux 2/3.5.3
   default_region: ap-south-1
