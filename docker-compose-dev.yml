@@ -1,0 +1,19 @@
+version: "3"
+services:
+  web:
+    build:
+      context: . # This context option is specify (path) where the all the file and folder for this image pulled from
+      dockerfile: Dockerfile.dev # for location of docker file to construct image
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
