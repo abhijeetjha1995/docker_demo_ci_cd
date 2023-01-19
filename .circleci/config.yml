@@ -16,6 +16,8 @@ jobs:
           name: Run Unit tests
           command: npm test
   deploy:
+    docker:
+      - image: cimg/node:16.10
     steps:
       - checkout
       - run:
